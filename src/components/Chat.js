@@ -11,12 +11,11 @@ import React, { useState, useEffect } from "react";
 import "./chat.css";
 import db from "../firebase";
 import { useParams } from "react-router-dom";
-import {UseStateValue} from "../globalContext/StateProvider"
+import { UseStateValue } from "../globalContext/StateProvider";
 import firebase from "firebase";
 
 function Chat() {
-
-  const [{user}, dispatch] = UseStateValue();
+  const [{ user }, dispatch] = UseStateValue();
   const [input, setInput] = useState("");
   const [seed, setSeed] = useState("123");
   const [roomName, setRoomName] = useState("");
@@ -46,11 +45,11 @@ function Chat() {
   const btnHandler = (e) => {
     e.preventDefault();
     //console.log(input);
-db.collection('rooms').doc(roomId).collection('messages').add({
-  message: input,
-  name: user.displayName,
-  timestamp: firebase.firestore.FieldValue.serverTimestamp()
-})
+    db.collection("rooms").doc(roomId).collection("messages").add({
+      message: input,
+      name: user.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
     setInput("");
   };
   return (
@@ -60,7 +59,12 @@ db.collection('rooms').doc(roomId).collection('messages').add({
 
         <div className="chat_headerInfo">
           <h3>{roomName}</h3>
-          <p>last seen at ...</p>
+          <p>
+            last seen at{" "}
+            {new Date(
+              messages[messages.length - 1]?.timestamp?.toDate()
+            ).toUTCString()}
+          </p>
         </div>
 
         <div className="chat_headerRight">
@@ -78,7 +82,11 @@ db.collection('rooms').doc(roomId).collection('messages').add({
       {/* chat body */}
       <div className="chat_body">
         {messages.map((message) => (
-          <p className="chat_message chat_reciever">
+          <p
+            className={`chat_message ${
+              message.name === user.displayName && "chat_reciever"
+            }`}
+          >
             <span className="chat_name">{message.name} </span>
             {message.message}
             <span className="chat_timestamp">
