@@ -51,7 +51,8 @@
 }
 
 
-.sideBar_chat{
+.sideBar_chat{ 
+    height: 100vh;
     background: white;
     overflow: scroll;
     scroll-behavior: smooth;
