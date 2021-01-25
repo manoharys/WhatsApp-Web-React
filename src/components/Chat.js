@@ -1,15 +1,23 @@
 import { Avatar, IconButton } from "@material-ui/core";
-import { AttachFile, SearchOutlined, MoreVert } from "@material-ui/icons";
+import { AttachFile, SearchOutlined, MoreVert, InsertEmoticonIcon} from "@material-ui/icons";
+import MoodIcon from '@material-ui/icons/Mood';
+import MicNoneIcon from '@material-ui/icons/MicNone';
 import React, { useState, useEffect } from "react";
 import "./chat.css";
 
 function Chat() {
+  const [input, setInput] = useState("");
   const [seed, setSeed] = useState("123");
   const avatar = `https://avatars.dicebear.com/api/human/${seed}.svg`;
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
 
+  const btnHandler = (e)=>{
+      e.preventDefault();
+      console.log(input);
+      setInput("");
+  }
   return (
     <div className="chat">
       <div className="chat_header">
@@ -43,7 +51,12 @@ function Chat() {
 
       {/* chat footer */}
       <div className="chat_footer">
-        
+         <MoodIcon />
+         <form>
+             <input type="text" placeholder="Type a message" value={input} onChange={(e)=>setInput(e.target.value)}/>
+             <button type="submit" onClick={btnHandler}>Send</button>
+         </form>
+         <MicNoneIcon />
       </div>
 
     </div>
