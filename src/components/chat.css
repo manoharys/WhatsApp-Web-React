@@ -53,13 +53,16 @@
 .chat_name{
     position: absolute;
     top: -15px;
-    font-weight: 800;
+    font-weight: 600;
+    letter-spacing: 1px;
     font-size: xx-small;
+    color: rgb(36, 33, 33);
 }
 
 .chat_timestamp{
     margin-left: 10px;
     font-size: xx-small;
+    color: rgb(61, 61, 61);
 }
 
 .chat_reciever{

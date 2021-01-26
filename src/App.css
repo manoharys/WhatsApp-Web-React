@@ -2,6 +2,13 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Helvetica;
+}
+
+
+p{
+  font-weight: 300 !important;
+
 }
 
 .App{
