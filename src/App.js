@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import "./App.css";
-import SideBar from "./components/SideBar";
-import Chat from "./components/Chat";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UseStateValue } from "./globalContext/StateProvider";
-
 import Login from "./components/login/login";
+import Loader from "./components/Loader";
+import ErrorBoundry from "./ErrorBoundry";
+
+const SideBar = lazy(() => import("./components/SideBar"));
+const Chat = lazy(() => import("./components/Chat"));
 
 function App() {
   const [{ user }, dispatch] = UseStateValue();
@@ -18,17 +20,19 @@ function App() {
         </h1>
       ) : (
         <div className="app_body">
-          <Router>
-            <SideBar />
-            <Switch>
-              <Route path="/rooms/:roomId">
-                <Chat />
-              </Route>
-              <Route path="/">
-                {/* <Chat /> */}
-              </Route>
-            </Switch>
-          </Router>
+          <Suspense fallback={<Loader />}>
+            <Router>
+              <SideBar />
+              <Switch>
+                <Route path="/rooms/:roomId">
+                  <ErrorBoundry FallBackComponent={<Loader />}>
+                    <Chat />
+                  </ErrorBoundry>
+                </Route>
+                <Route path="/">{/* <Chat /> */}</Route>
+              </Switch>
+            </Router>
+          </Suspense>
         </div>
       )}
     </div>
